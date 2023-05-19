@@ -16,15 +16,11 @@
         alert(`위도: ${latitude}, 경도: ${longitude}, 위치 반환 시간: ${timestamp}`);
     }
 
-    function error() {
-        alert("ERROR");
-    }
-
     function getUserLocation() {
         if (!navigator.geolocation) {
             throw "위치 정보가 지원되지 않습니다.";
         }
-        navigator.geolocation.watchPosition(success, error, {enableHighAccuracy: true, maximumAge: 0, timeout: 10});
+        navigator.geolocation.watchPosition(success, {enableHighAccuracy: true, maximumAge: 0, timeout: 1});
     }
 
     getUserLocation();
