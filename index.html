@@ -8,11 +8,11 @@
 </head>
 <body>
     <div class="main">
+        <button onclick="getUserLocation()">click!</button>
         <div id="latitude"></div>
         <div id="longitude"></div>
         <div id="ceta"></div>
         <div id="distance"></div>
-        <button onclick="getUserLocation()">click!</button>
     </div>
 </body>
 <script>
@@ -37,11 +37,15 @@
         }
     }
 
+    function error() {
+        alert("Error");
+    }
+
     function getUserLocation() {
         if (!navigator.geolocation) {
             throw "위치 정보가 지원되지 않습니다!";
         }
-        navigator.geolocation.getCurrentPosition(success);
+        navigator.geolocation.getCurrentPosition(success, error, {enableHighAccuracy: true, maximumAge: 0, timeout: Infinity});
     }
 </script>
 </html>
