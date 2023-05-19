@@ -10,16 +10,31 @@
     <div class="main">
         <div id="latitude"></div>
         <div id="longitude"></div>
+        <div id="ceta"></div>
+        <div id="distance"></div>
         <button onclick="getUserLocation()">click!</button>
     </div>
 </body>
 <script>
+    var points = []
     function success({coords}) {
         var latitude = coords.latitude;
         var longitude = coords.longitude;
         
-        document.getElementById("latitude").innerHTML = latitude;
-        document.getElementById("longitude").innerHTML = longitude;
+        document.getElementById("latitude").innerHTML += `[${points.length}] ` + latitude + "<br>";
+        document.getElementById("longitude").innerHTML += `[${points.length}] ` + longitude + "<br>";
+        points.push([latitude, longitude]);
+
+        if (points.length >= 2) {
+            var a = points[points.length - 1];
+            var b = points[points.length - 2];
+
+            var ceta = Math.acos((Math.cos(a[0])*Math.cos(a[1])*Math.cos(b[0])*Math.cos(b[1])) + (Math.cos(a[0])*Math.sin(a[1])*Math.cos(b[0])*Math.sin(b[1])) + (Math.sin(a[0])*Math.sin(b[0])));
+            var distance = (((6378*1000*Math.cos(a[0]))**2 + (6357*1000*Math.sin(a[0]))**2)**(1/2))*ceta;
+
+            document.getElementById("ceta").innerHTML = "ceta: " + ceta + " rad";
+            document.getElementById("distance").innerHTML = "distance: " + distance + " m";
+        }
     }
 
     function getUserLocation() {
