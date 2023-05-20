@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get Distance</title>
 </head>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bafbd6496a885ec6a06368175fcefe3c"></script>
 <body>
     <div class="main">
         <button onclick="getUserLocation()" class="btn">click!</button>
         <div id="latitude"></div>
         <div id="longitude"></div>
-        <div id="ceta"></div>
         <div id="distance"></div>
     </div>
 </body>
@@ -26,14 +26,14 @@
         points.push([latitude, longitude]);
 
         if (points.length >= 2) {
-            var a = points[points.length - 1];
-            var b = points[points.length - 2];
+            var lat1 = new kakao.maps.LatLng(points[points.length-1][0], points[points.length-1][1]);
+            var lat2 = new kakao.maps.LatLng(points[points.length-2][0], points[points.length-2][1]);
 
-            var ceta = Math.acos((Math.cos(a[0])*Math.cos(a[1])*Math.cos(b[0])*Math.cos(b[1])) + (Math.cos(a[0])*Math.sin(a[1])*Math.cos(b[0])*Math.sin(b[1])) + (Math.sin(a[0])*Math.sin(b[0])));
-            var distance = 6370623.42045529*ceta;
+            var coords1 = lat1.toCoords();
+            var coords2 = lat2.toCoords();
 
-            document.getElementById("ceta").innerHTML = "ceta: " + ceta + " rad";
-            document.getElementById("distance").innerHTML = "distance: " + distance + " m";
+            var dist = ((coords1.getX()-coords2.getX())**2 + (coords2.getY()-coords2.getY())**2)**(1/2);
+            document.getElementById('distance').innerHTML = "distance: " + dist + " m";
         }
     }
 
